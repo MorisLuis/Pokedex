@@ -272,3 +272,62 @@ test('upstream timeout returns HTTP 504 with the consistent error shape', async 
       body: { error: { code: 'UPSTREAM_TIMEOUT', message: 'Pokémon data request timed out' } } });
   });
 });
+
+
+test('ID filter finds favorites beyond the original page before calculating pagination and total', async () => withApi(async (get, f) => {
+  const before = [...await f.cache.getIndex()];
+  assert.deepEqual(await get('/api/pokemon?limit=1'), { status: 200, body: {
+    results: [summary(1, 'bulbasaur')], total: 4, limit: 1, offset: 0,
+  } });
+  assert.deepEqual(await get('/api/pokemon?ids=4,25&limit=1'), { status: 200, body: {
+    results: [summary(4, 'charmander')], total: 2, limit: 1, offset: 0,
+  } });
+  assert.deepEqual(await get('/api/pokemon?ids=4,25&limit=1&offset=1'), { status: 200, body: {
+    results: [summary(25, 'pikachu')], total: 2, limit: 1, offset: 1,
+  } });
+  assert.deepEqual(await f.cache.getIndex(), before);
+  assert.equal(f.calls(), 2, 'favorites reuse the index and never fetch individual details');
+}));
+
+for (const [sortBy, order, ids] of [
+  ['id', 'asc', [4, 6, 25]], ['id', 'desc', [25, 6, 4]],
+  ['name', 'asc', [6, 4, 25]], ['name', 'desc', [25, 4, 6]],
+] as const) {
+  test(`favorites respect ${sortBy} ${order} ordering`, async () => withApi(async (get) => {
+    const response = await get(`/api/pokemon?ids=25,4,6&sortBy=${sortBy}&order=${order}`);
+    assert.equal(response.status, 200);
+    const body = response.body as { results: { id: number }[]; total: number };
+    assert.deepEqual(body.results.map(({ id }) => id), ids);
+    assert.equal(body.total, 3);
+  }));
+}
+
+test('ID filtering intersects case-insensitive search and applies pagination afterward', async () => withApi(async (get) => {
+  assert.deepEqual(await get('/api/pokemon?ids=25,4,6&search=%20CHAR%20&sortBy=name&order=asc&limit=1&offset=1'),
+    { status: 200, body: { results: [summary(4, 'charmander')], total: 2, limit: 1, offset: 1 } });
+  assert.deepEqual(await get('/api/pokemon?ids=25&search=char'),
+    { status: 200, body: { results: [], total: 0, limit: 20, offset: 0 } });
+}));
+
+test('empty and unknown IDs return empty pages; duplicates do not affect totals', async () => withApi(async (get) => {
+  for (const ids of ['', '999999']) {
+    assert.deepEqual(await get(`/api/pokemon?ids=${ids}`),
+      { status: 200, body: { results: [], total: 0, limit: 20, offset: 0 } });
+  }
+  assert.deepEqual(await get('/api/pokemon?ids=25,25,999999'), { status: 200, body: {
+    results: [summary(25, 'pikachu')], total: 1, limit: 20, offset: 0,
+  } });
+  assert.deepEqual(await get('/api/pokemon?ids=25&offset=1'), { status: 200, body: {
+    results: [], total: 1, limit: 20, offset: 1,
+  } });
+}));
+
+test('invalid ID filters return 400 before requesting upstream data', async () => withApi(async (get, f) => {
+  for (const query of ['ids=abc', 'ids=0', 'ids=-1', 'ids=1.5', 'ids=1,,25', 'ids=1,',
+    'ids=9007199254740992', 'ids=%20', 'ids=1&ids=25', 'ids[x]=25']) {
+    const response = await get(`/api/pokemon?${query}`);
+    assert.equal(response.status, 400, query);
+    assert.equal((response.body as { error: { code: string } }).error.code, 'INVALID_REQUEST');
+  }
+  assert.equal(f.calls(), 0);
+}));
