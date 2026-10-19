@@ -7,9 +7,9 @@ A full-stack Pokédex built for the [DearDoc take-home challenge](https://github
 - Responsive, light-themed grid of horizontal cards with Pokémon names, numbers, and artwork.
 - Case-insensitive partial name search, submitted with Search or Enter.
 - Sorting by number or name in either direction, pagination, and selectable page size.
-- Search, sorting, and pagination synchronized with URL query parameters, including reloads and browser Back/Forward. Changing search, sorting, or page size resets the offset.
+- Search, sorting, and pagination synchronized with URL query parameters, including reloads and browser Back/Forward. Changing search, sorting, page size, or Favorites only resets the offset. The favorites filter is stored as `favoritesOnly=true` in the URL; saved IDs remain in localStorage.
 - On-demand details dialog with types, height in meters, and weight in kilograms.
-- Favorites toggled from cards or details, with a count and browser persistence.
+- Favorites toggled from cards or details, with a count and browser persistence. A Favorites only checkbox filters saved Pokémon across the full catalog while retaining search, sorting, and pagination.
 - Loading skeletons, empty results, out-of-range page recovery, and error states with retry actions. Obsolete client requests are aborted.
 
 ## Stack and architecture
@@ -112,12 +112,13 @@ This checks that the application responds; it does not check PokéAPI availabili
 | Parameter | Default | Accepted values |
 | --- | --- | --- |
 | `search` | `""` | Trimmed string; case-insensitive partial name match |
+| `ids` | Omitted (all IDs) | Comma-separated positive safe integer IDs, e.g. `1,25`; `ids=` matches nothing |
 | `sortBy` | `id` | `id` or `name` |
 | `order` | `asc` | `asc` or `desc` |
 | `limit` | `20` | Integer from 1 to 100 |
 | `offset` | `0` | Non-negative safe integer |
 
-Filtering runs across the entire catalog before sorting and pagination. `total` counts all matches before pagination. Sorting does not mutate the cached catalog. Omitted parameters receive defaults; invalid values, repeated parameters, and unknown parameters return HTTP 400. Empty matches or offsets past the results return HTTP 200 with `results: []`.
+ID and name filters intersect across the entire catalog before sorting and pagination. Duplicate IDs are deduplicated; unknown IDs are ignored. `total` counts all matches before pagination. Sorting does not mutate the cached catalog. Omitted parameters receive defaults; invalid values, repeated parameters, and unknown parameters return HTTP 400. Empty matches or offsets past the results return HTTP 200 with `results: []`.
 
 ```sh
 curl 'http://localhost:3001/api/pokemon?search=charmander&sortBy=name&order=asc&limit=1&offset=0'
@@ -189,7 +190,7 @@ Errors are centralized in middleware. Responses omit stack traces; server-side f
 
 ## Persistence and caching
 
-**Favorites:** IDs are stored under `deardoc-pokedex-favorites` in localStorage. Favorites survive reloads on the same browser origin, synchronize through storage events across tabs, and can be removed by toggling again. Malformed entries are ignored. Failed writes show a warning and retain changes in memory for the current session. There is no account or server-side favorites storage.
+**Favorites:** IDs are stored under `deardoc-pokedex-favorites` in localStorage. The Favorites only filter sends saved IDs to the existing list endpoint without requesting individual details. Favorite changes while filtered reset pagination. Favorites survive reloads on the same browser origin, synchronize through storage events across tabs, and can be removed by toggling again. Malformed entries are ignored. Failed writes show a warning and retain changes in memory for the current session. There is no account or server-side favorites storage.
 
 **Catalog cache:** The server discovers PokéAPI's count and requests the full index without fetching every Pokémon's details. Resource URLs, completeness, and uniqueness are validated before accepting a replacement.
 
@@ -207,7 +208,7 @@ Errors are centralized in middleware. Responses omit stack traces; server-side f
 - SWR favors availability: stale catalog data can remain indefinitely during upstream failures, and name lookup may miss newly added entries until refresh succeeds. A count change between catalog requests rejects that refresh instead of publishing an incomplete snapshot.
 - Filtering and sorting happen in server memory for each list request. No database, authentication, Redis, or distributed infrastructure is included.
 - Card colors are decorative, not type indicators; types appear only in details. Artwork is loaded directly from the public sprites URLs and may be unavailable for some forms.
-- Favorites are browser/origin-specific and have no cross-device synchronization or favorites-only view. Clearing site storage removes them.
+- Favorites are browser/origin-specific and have no cross-device synchronization. Clearing site storage removes them.
 - This repository provides local development and build commands. Express does not serve the built client; hosting requires a static frontend and same-origin `/api` routing to the API. Vite preview is for local inspection, not production hosting. Cross-browser and accessibility review remain manual.
 
 
