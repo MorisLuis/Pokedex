@@ -108,6 +108,8 @@
 .hero {
     position: relative;
     padding-top: 53px;
+    min-height: 260px;
+    overflow: hidden;
 }
 
 .eyebrow {
@@ -149,7 +151,8 @@
 .heroMark {
     position: absolute;
     right: 45px;
-    top: 62px;
+    top: 28px;
+    pointer-events: none;
     width: 220px;
     height: 200px;
     transform: rotate(-18deg);
@@ -325,7 +328,7 @@
     }
 
     .heroMark {
-        right: 0;
+        right: 20px;
         transform: rotate(-18deg) scale(0.8);
         transform-origin: right;
     }
@@ -346,6 +349,7 @@
 
     .hero {
         padding-top: 35px;
+        min-height: 0;
     }
 
     .hero h1 {
