@@ -1,0 +1,382 @@
+:global(*) {
+    box-sizing: border-box;
+}
+
+:global(body) {
+    margin: 0;
+    background: #fcfcfa;
+    color: #25364b;
+    font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+:global(button),
+:global(input),
+:global(select) {
+    font: inherit;
+}
+
+:global(button:focus-visible),
+:global(a:focus-visible),
+:global(select:focus-visible),
+:global(input:focus-visible) {
+    outline: 3px solid #315dc7;
+    outline-offset: 4px;
+}
+
+.page {
+    max-width: 1440px;
+    margin: auto;
+    padding: 0 64px;
+}
+
+.header {
+    height: 94px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border-bottom: 1px solid #e9ecee;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 850;
+    letter-spacing: -1.3px;
+    font-size: 28px;
+    text-decoration: none;
+    color: #263f6b;
+}
+
+.brandDot {
+    color: #e6ad24;
+}
+
+.pokeball {
+    position: relative;
+    width: 29px;
+    height: 29px;
+    border: 3px solid #385fbd;
+    border-radius: 50%;
+    background: linear-gradient(to bottom,
+            #385fbd 0 43%,
+            #fcfcfa 43% 58%,
+            #fcfcfa 58%);
+}
+
+.pokeball::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border: 3px solid #385fbd;
+    border-radius: 50%;
+    background: #fcfcfa;
+    top: 5px;
+    left: 5px;
+}
+
+.navLabel {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: #8590a2;
+    font-weight: 650;
+}
+
+.favoriteCount {
+    border: 1px solid #e5e8ee;
+    border-radius: 30px;
+    padding: 10px 16px;
+    color: #627089;
+    font-size: 12px;
+}
+
+.favoriteCount>span:first-child {
+    color: #d97583;
+    margin-right: 6px;
+}
+
+.main {
+    max-width: 1160px;
+    margin: auto;
+}
+
+.hero {
+    position: relative;
+    padding-top: 53px;
+}
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 750;
+    color: #789086;
+    letter-spacing: 0.13em;
+}
+
+.eyebrow>span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #84a487;
+}
+
+.hero h1 {
+    font-size: clamp(36px, 4.5vw, 58px);
+    line-height: 1.12;
+    letter-spacing: -2.5px;
+    font-weight: 800;
+    margin: 20px 0 16px;
+}
+
+.hero h1>span {
+    color: #4167bb;
+}
+
+.hero p {
+    font-size: 14px;
+    color: #7c8795;
+    line-height: 1.8;
+    margin-bottom: 0;
+}
+
+.heroMark {
+    position: absolute;
+    right: 45px;
+    top: 62px;
+    width: 220px;
+    height: 200px;
+    transform: rotate(-18deg);
+}
+
+.largeBall {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    top: 10px;
+    left: 25px;
+    border: 14px solid #dce4f2;
+    border-radius: 50%;
+    background: linear-gradient(to bottom,
+            #edf1f8 45%,
+            #dce4f2 45% 55%,
+            #fcfcfa 55%);
+}
+
+.largeBall::after {
+    content: "";
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    background: #fcfcfa;
+    border: 12px solid #dce4f2;
+    border-radius: 50%;
+    top: 40px;
+    left: 40px;
+}
+
+.spark {
+    position: absolute;
+    right: -15px;
+    top: 0;
+    font-size: 40px;
+    color: #f4cb5e;
+}
+
+.sparkSmall {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 35px;
+    color: #9bb2dc;
+}
+
+.sectionHeading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 6px 0 20px;
+    gap: 10px;
+}
+
+.sectionHeading h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 19px;
+    letter-spacing: -0.4px;
+}
+
+.resultCount {
+    display: inline-block;
+    background: #edf0f5;
+    color: #758096;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 9px;
+    border-radius: 20px;
+    letter-spacing: 0;
+}
+
+.subtle {
+    font-size: 11px;
+    color: #9199a5;
+}
+
+.subtle span {
+    margin-left: 8px;
+    color: #cfb871;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.skeleton {
+    min-height: 182px;
+    border-radius: 22px;
+    background: #edf0ed;
+}
+
+.loadingText {
+    color: #7d8796;
+    font-size: 13px;
+}
+
+.state {
+    padding: 70px 20px;
+    text-align: center;
+    background: #f4f6f9;
+    border-radius: 20px;
+}
+
+.state>span {
+    font-size: 42px;
+    color: #7190c4;
+}
+
+.state h3 {
+    margin-bottom: 8px;
+}
+
+.state p {
+    color: #778296;
+    line-height: 1.6;
+}
+
+.state button {
+    border: 0;
+    border-radius: 9px;
+    background: #ffce45;
+    color: #3b351d;
+    padding: 13px 20px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.warning {
+    color: #875f28;
+    background: #fff1d5;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 13px;
+}
+
+.range {
+    margin-top: 24px;
+    text-align: center;
+    color: #8791a1;
+    font-size: 12px;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 28px 0;
+    margin-top: 26px;
+    border-top: 1px solid #e9ecee;
+    font-size: 10px;
+    color: #8d96a3;
+}
+
+@media (min-width: 1450px) {
+    .grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1000px) {
+    .page {
+        padding: 0 30px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .heroMark {
+        right: 0;
+        transform: rotate(-18deg) scale(0.8);
+        transform-origin: right;
+    }
+}
+
+@media (max-width: 620px) {
+    .page {
+        padding: 0 20px;
+    }
+
+    .header {
+        height: 78px;
+    }
+
+    .navLabel {
+        display: none;
+    }
+
+    .hero {
+        padding-top: 35px;
+    }
+
+    .hero h1 {
+        letter-spacing: -1.6px;
+    }
+
+    .heroMark {
+        display: none;
+    }
+
+    .hero p {
+        font-size: 13px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .subtle {
+        display: none;
+    }
+
+    .footer {
+        flex-direction: column;
+        line-height: 1.5;
+    }
+
+    .eyebrow {
+        font-size: 9px;
+    }
+
+    .sectionHeading {
+        margin-top: 5px;
+    }
+}
