@@ -20,6 +20,7 @@ export function Pagination({ total, limit, offset, onPage }: PaginationProps) {
     <nav className={styles.pagination} aria-label="Pokémon pages">
 
       <button
+        aria-label="Previous page"
         disabled={offset === 0}
         onClick={() => onPage(Math.max(0, offset - limit))}
       >
@@ -40,6 +41,7 @@ export function Pagination({ total, limit, offset, onPage }: PaginationProps) {
       </div>
 
       <button
+        aria-label="Next page"
         disabled={offset + limit >= total}
         onClick={() => onPage(offset + limit)}
       >
