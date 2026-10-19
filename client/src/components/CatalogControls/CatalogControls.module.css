@@ -1,0 +1,15 @@
+.controls { margin-top: 32px; }
+.search { display: flex; align-items: center; gap: 14px; padding: 8px 8px 8px 22px; border: 1px solid #dce2ec; border-radius: 16px; background: white; box-shadow: 0 5px 20px #19365b04; }
+.search:focus-within { border-color: #4165c7; }
+.searchIcon { font-size: 30px; color: #7e8ba3; }
+.searchLabel { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.search input { border: none; background: none; flex: 1; min-width: 0; padding: 12px 0; font-size: 15px; color: #233549; outline: none; }
+.search input::placeholder { color: #8992a3; }
+.search button { border: 0; background: #ffce45; color: #3b351d; padding: 16px 26px; font-weight: 750; border-radius: 10px; cursor: pointer; }
+.search button span { margin-left: 18px; }
+.filters { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 27px 0; }
+.caption { color: #7d8796; font-size: 13px; }
+.selects { display: flex; gap: 18px; flex-wrap: wrap; }
+.selects label { display: flex; align-items: center; gap: 8px; color: #7d8796; font-size: 12px; }
+.selects select { padding: 8px 22px 8px 10px; background: white; color: #27384d; border: 1px solid #e3e7ed; border-radius: 8px; font-weight: 600; max-width: 145px; }
+@media (max-width: 700px) { .caption { display: none; } .filters { padding: 22px 0; } .selects { gap: 10px; } .selects label { flex-direction: column; align-items: flex-start; } .search { padding-left: 14px; gap: 8px; } .search button { padding: 15px; } .search button span { display: none; } }
