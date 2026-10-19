@@ -1,0 +1,6 @@
+.pagination { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 30px 0; border-top: 1px solid #e8ebf0; margin-top: 30px; }
+.pagination div { display: flex; gap: 5px; }
+.pagination button { border: 0; border-radius: 10px; min-width: 36px; min-height: 40px; background: transparent; color: #536174; font-weight: 600; cursor: pointer; }
+.pagination button[aria-current] { background: #eaf0fd; color: #355bbe; }
+.pagination button:disabled { opacity: .35; cursor: default; }
+@media (max-width: 500px) { .pagination button span { display: none; } .pagination { gap: 2px; } }
