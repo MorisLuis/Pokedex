@@ -13,7 +13,7 @@ export function createPokemonService(cache: PokemonCache) {
   return {
 
     /**
-     * Searches the entire catalog before sorting and paginating. Filtering creates a
+     * Applies optional IDs and name search across the entire catalog before sorting and paginating. Filtering creates a
      * separate array so sorting cannot reorder the shared cache; total counts all
      * matches before pagination. An unmatched search returns an empty successful page.
      */
@@ -21,7 +21,11 @@ export function createPokemonService(cache: PokemonCache) {
       const catalog = await cache.getIndex();
 
       const search = query.search.toLowerCase();
-      const matches = catalog.filter(({ name }) => name.toLowerCase().includes(search));
+
+      // Filter by IDs if provided, otherwise include all. Then filter by name search.
+      const ids = query.ids === undefined ? null : new Set(query.ids);
+      const matches = catalog.filter(({ id, name }) => (ids === null || ids.has(id)) && name.toLowerCase().includes(search));
+    
       const direction = query.order === 'asc' ? 1 : -1;
 
       matches.sort((a, b) => direction *
