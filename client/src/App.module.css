@@ -86,6 +86,8 @@
 }
 
 .favoriteCount {
+    background: transparent;
+    cursor: pointer;
     border: 1px solid #e5e8ee;
     border-radius: 30px;
     padding: 10px 16px;
@@ -379,4 +381,39 @@
     .sectionHeading {
         margin-top: 5px;
     }
+}
+:global(button) {
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.favoriteCount[aria-pressed="true"] {
+    background: #fce8ed;
+    border-color: #dfa5b3;
+    color: #a62b4c;
+}
+
+.favoriteCount[aria-pressed="true"] > span:first-child {
+    color: inherit;
+}
+
+@media (hover: hover) {
+    .favoriteCount:hover {
+        background: #f9edf0;
+        border-color: #dfa5b3;
+        color: #a62b4c;
+    }
+
+    .favoriteCount[aria-pressed="true"]:hover {
+        background: #f7d7e1;
+        border-color: #ce7c93;
+    }
+
+    .state button:hover {
+        background: #f5bf2a;
+        box-shadow: 0 3px 10px #a5781b20;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    :global(button) { transition: none; }
 }

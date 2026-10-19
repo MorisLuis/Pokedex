@@ -37,10 +37,16 @@ export function App() {
           </span>
         </a>
         <span className={styles.navLabel}>THE POKÉMON FIELD GUIDE</span>
-        <span className={styles.favoriteCount}>
+
+        <button
+          className={styles.favoriteCount}
+          aria-pressed={query.favoritesOnly}
+          onClick={() => updateQuery({ favoritesOnly: !query.favoritesOnly })}
+        >
           <span aria-hidden="true">♥</span> {favorites.length}{" "}
           <span>favorites</span>
-        </span>
+        </button>
+
       </header>
 
       <main className={styles.main}>
