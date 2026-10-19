@@ -45,6 +45,9 @@ export async function getPokemonList(
     offset: String(params.offset),
   });
 
+  // Omission means all Pokémon; an explicit empty list means no matches.
+  if (params.ids !== undefined) query.set("ids", params.ids.join(","));
+
   const response = await fetch(
     `/api/pokemon?${query}`,
     signal ? { signal } : {},
