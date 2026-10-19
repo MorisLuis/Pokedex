@@ -25,3 +25,8 @@
 .skeletonValue { width: 65px; height: 29px; border-radius: 6px; }
 @keyframes skeletonPulse { 50% { opacity: .45; } }
 @media (prefers-reduced-motion: reduce) { .skeletonBadge, .skeletonLabel, .skeletonValue { animation: none; } }
+
+@media (hover: hover) {
+  .save:hover, .retry:hover { background: #f5bf2a; box-shadow: 0 3px 10px #a5781b20; }
+  .close:hover { background: #edf2fa; color: #315dc7; }
+}

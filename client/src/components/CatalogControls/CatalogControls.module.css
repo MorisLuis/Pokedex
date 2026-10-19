@@ -17,3 +17,7 @@
 
 .favoritesToggle { display: inline-flex; align-items: center; gap: 8px; padding: 8px 0; color: #536174; font-size: 13px; cursor: pointer; }
 .favoritesToggle input { width: 16px; height: 16px; margin: 0; accent-color: #4167bb; cursor: pointer; }
+
+@media (hover: hover) {
+  .search button:hover { background: #f5bf2a; box-shadow: 0 3px 10px #a5781b20; }
+}

@@ -4,3 +4,8 @@
 .pagination button[aria-current] { background: #eaf0fd; color: #355bbe; }
 .pagination button:disabled { opacity: .35; cursor: default; }
 @media (max-width: 500px) { .pagination button span { display: none; } .pagination { gap: 2px; } }
+
+@media (hover: hover) {
+  .pagination button:not(:disabled):hover { background: #edf2fa; color: #355bbe; }
+  .pagination button[aria-current]:hover { background: #dce6fc; }
+}
