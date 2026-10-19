@@ -54,6 +54,7 @@ export function CatalogControls({ query, onChange }: CatalogControlsProps) {
               <option value="id">Number</option>
               <option value="name">Name</option>
             </select>
+  
           </label>
           <label>
             Order{" "}
