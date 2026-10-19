@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import type { PokemonListParams } from "../../types/pokemon";
+import type { CatalogQuery } from "../../types/pokemon";
 import styles from "./CatalogControls.module.css";
 
 export interface CatalogControlsProps {
-  query: PokemonListParams;
-  onChange: (changes: Partial<PokemonListParams>) => void;
+  query: CatalogQuery;
+  onChange: (changes: Partial<CatalogQuery>) => void;
 }
 
 export function CatalogControls({ query, onChange }: CatalogControlsProps) {
@@ -39,7 +39,14 @@ export function CatalogControls({ query, onChange }: CatalogControlsProps) {
         </button>
       </form>
       <div className={styles.filters}>
-        <span className={styles.caption}>A whole world to discover.</span>
+        <label className={styles.favoritesToggle}>
+          <input
+            type="checkbox"
+            checked={query.favoritesOnly}
+            onChange={(event) => onChange({ favoritesOnly: event.target.checked })}
+          />
+          Favorites only
+        </label>
         <div className={styles.selects}>
           <label>
             Sort by{" "}
