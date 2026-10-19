@@ -30,12 +30,7 @@ export function App() {
 
       <main className={styles.main}>
         <section className={styles.hero} aria-labelledby="page-title">
-          <div className={styles.eyebrow}><span /> YOUR NEXT DISCOVERY STARTS HERE</div>
           <h1 id="page-title">Small creatures.<br /><span>Endless discoveries.</span></h1>
-          <p>
-            Get to know every Pokémon. Find your favorites.<br />
-            Build a little collection of your own.
-          </p>
           <div className={styles.heroMark} aria-hidden="true">
             <span className={styles.spark}>✦</span>
             <span className={styles.largeBall} />
@@ -44,6 +39,7 @@ export function App() {
         </section>
 
         <CatalogControls query={query} onChange={updateQuery} />
+        
         <section aria-labelledby="catalog-title" aria-busy={loading}>
           <div className={styles.sectionHeading}>
             <h2 id="catalog-title">
