@@ -12,7 +12,7 @@ export interface UsePokemonListReturn {
 /**
  * Loads a backend catalog page when its query changes. Cleanup aborts obsolete
  * requests; aborted results cannot replace the current page or display errors.
- * @param params Validated catalog filters, sort order, and pagination.
+ * @param params Catalog filters, optional favorite IDs, sort order, and pagination.
  * @returns Page data, loading/error state, and a retry action.
  */
 export function usePokemonList(
@@ -24,13 +24,13 @@ export function usePokemonList(
     error: null,
   });
   const [attempt, setAttempt] = useState(0);
-  const { search, sortBy, order, limit, offset } = params;
+  const { search, sortBy, order, limit, offset, ids } = params;
 
   useEffect(() => {
     const controller = new AbortController();
     setState({ data: null, loading: true, error: null });
     void getPokemonList(
-      { search, sortBy, order, limit, offset },
+      { search, sortBy, order, limit, offset, ...(ids !== undefined ? { ids } : {}) },
       controller.signal,
     )
       .then((data) => {
@@ -49,7 +49,7 @@ export function usePokemonList(
           });
       });
     return () => controller.abort();
-  }, [search, sortBy, order, limit, offset, attempt]);
+  }, [search, sortBy, order, limit, offset, ids, attempt]);
 
   return { ...state, retry: () => setAttempt((value) => value + 1) };
 }
