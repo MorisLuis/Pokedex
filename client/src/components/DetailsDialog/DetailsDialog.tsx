@@ -67,7 +67,22 @@ export function DetailsDialog({
         </p>
         <h2 id="detail-title">{pokemon.name}</h2>
 
-        {loading && <p role="status">Loading Pokémon details…</p>}
+        {loading && (
+          <div role="status" aria-label="Loading Pokémon details">
+            <div className={styles.skeletonTypes} aria-hidden="true">
+              <span className={styles.skeletonBadge} />
+              <span className={styles.skeletonBadge} />
+            </div>
+            <div className={styles.skeletonStats} aria-hidden="true">
+              {["height", "weight"].map((stat) => (
+                <div className={styles.skeletonStat} key={stat}>
+                  <span className={styles.skeletonLabel} />
+                  <span className={styles.skeletonValue} />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {error && (
           <div role="alert">
