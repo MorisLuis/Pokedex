@@ -11,11 +11,16 @@ export interface PokemonDetails extends PokemonSummary {
 }
 
 export interface PokemonListParams {
+  ids?: readonly number[];
   search: string;
   sortBy: 'id' | 'name';
   order: 'asc' | 'desc';
   limit: number;
   offset: number;
+}
+
+export interface CatalogQuery extends Omit<PokemonListParams, 'ids'> {
+  favoritesOnly: boolean;
 }
 
 export interface PokemonListResponse {
