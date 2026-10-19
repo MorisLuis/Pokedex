@@ -5,8 +5,14 @@ const integerParameter = (min: number, max: number) => z.string()
   .transform(Number)
   .pipe(z.number().int().min(min).max(max));
 
+const idsParameter = z.string()
+  .transform((value) => value === '' ? [] : value.split(','))
+  .pipe(z.array(integerParameter(1, Number.MAX_SAFE_INTEGER)))
+  .transform((ids) => [...new Set(ids)]);
+
 export const listQuerySchema = z.object({
   search: z.string().trim().default(''),
+  ids: idsParameter.optional(),
   sortBy: z.enum(['id', 'name']).default('id'),
   order: z.enum(['asc', 'desc']).default('asc'),
   limit: integerParameter(1, 100).default(20),
